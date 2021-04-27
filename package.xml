@@ -1,19 +1,31 @@
 <?xml version="1.0"?>
-<!-- Package metadata for the ezrassor_controller_server ROS package.
-     Written by Tiger Sachse. -->
-<package format="2">
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd"
+            schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>ezrassor_controller_server</name>
+  <version>2.0.0</version>
+  <description>
+    Handle incoming network requests for the EZRASSOR.
+  </description>
+  <url type="website">
+    https://github.com/FlaSpaceInst/ezrassor_controller_server
+  </url>
+  <maintainer email="ez.rassor@gmail.com">EZRASSOR Team</maintainer>
+  <author email="ez.rassor@gmail.com">EZRASSOR Team</author>
   <license>MIT</license>
-  <version>1.1.1</version>
-  <author email="tgsachse@gmail.com">Tiger Sachse</author>
-  <maintainer email="tgsachse@gmail.com">Tiger Sachse</maintainer>
-  <url type="website">https://github.com/FlaSpaceInst/EZ-RASSOR</url>
-  <description>Handle incoming network requests for the EZ-RASSOR.</description>
 
-  <!-- A list of package dependencies. -->
-  <depend>rospy</depend>
-  <depend>std_msgs</depend>
-  <depend>roslaunch</depend>
   <depend>geometry_msgs</depend>
-  <buildtool_depend>catkin</buildtool_depend>
+  <depend>launch</depend>
+  <depend>launch_ros</depend>
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>python3-flask</depend>
+
+  <test_depend version_gte="6.0.0">python3-pytest</test_depend>
+
+  <exec_depend>launch_testing</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
 </package>
