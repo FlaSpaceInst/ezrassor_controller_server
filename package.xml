@@ -22,6 +22,7 @@
   <depend>python3-flask</depend>
 
   <test_depend version_gte="6.0.0">python3-pytest</test_depend>
+  <test_depend>python3-requests</test_depend>
 
   <exec_depend>launch_testing</exec_depend>
 
