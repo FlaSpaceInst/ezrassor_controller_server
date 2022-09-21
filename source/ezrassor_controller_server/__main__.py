@@ -34,7 +34,7 @@ def main(passed_args=None):
             QUEUE_SIZE,
         )
         front_arm_actions_publisher = node.create_publisher(
-            std_msgs.msg.Float32,
+            std_msgs.msg.Float64,
             FRONT_ARM_ACTIONS_TOPIC,
             QUEUE_SIZE,
         )
@@ -70,7 +70,7 @@ def main(passed_args=None):
                 wheel_actions_publisher.publish(wheel_action)
 
             if command.front_arm_action is not None:
-                front_arm_action = std_msgs.msg.Float32()
+                front_arm_action = std_msgs.msg.Float64()
                 front_arm_action.data = command.front_arm_action.value
                 print(front_arm_action, file=sys.stderr)
                 front_arm_actions_publisher.publish(front_arm_action)
