@@ -11,6 +11,7 @@ import rclpy
 import std_msgs.msg
 import sys
 
+#the topics have to have /{rover_name}/ and match instructions in sim_description
 NODE = "controller_server"
 WHEEL_ACTIONS_TOPIC = "/ezrassor/wheel_instructions"
 FRONT_ARM_ACTIONS_TOPIC = "/ezrassor/front_arm_instructions"
@@ -34,22 +35,22 @@ def main(passed_args=None):
             QUEUE_SIZE,
         )
         front_arm_actions_publisher = node.create_publisher(
-            std_msgs.msg.Float32,
+            std_msgs.msg.Float64,
             FRONT_ARM_ACTIONS_TOPIC,
             QUEUE_SIZE,
         )
         back_arm_actions_publisher = node.create_publisher(
-            std_msgs.msg.Float32,
+            std_msgs.msg.Float64,
             BACK_ARM_ACTIONS_TOPIC,
             QUEUE_SIZE,
         )
-        back_front_actions_publisher = node.create_publisher(
-            std_msgs.msg.Float32,
+        front_drum_actions_publisher = node.create_publisher(
+            std_msgs.msg.Float64,
             FRONT_DRUM_ACTIONS_TOPIC,
             QUEUE_SIZE,
         )
         back_drum_actions_publisher = node.create_publisher(
-            std_msgs.msg.Float32,
+            std_msgs.msg.Float64,
             BACK_DRUM_ACTIONS_TOPIC,
             QUEUE_SIZE,
         )
@@ -64,29 +65,29 @@ def main(passed_args=None):
             server.verify(request)
             command = server.create_command(request)
             if command.wheel_action is not None:
-                wheel_action = geometry_msgs.msg.Twist()             
+                wheel_action = geometry_msgs.msg.Twist() 
+                #converting linear x and z to floats since I am sending it as a string            
                 wheel_action.linear.x = float(command.wheel_action.linear_x)
                 wheel_action.angular.z = float(command.wheel_action.angular_z)
                 wheel_actions_publisher.publish(wheel_action)
 
             if command.front_arm_action is not None:
-                front_arm_action = std_msgs.msg.Float32()
+                front_arm_action = std_msgs.msg.Float64()
                 front_arm_action.data = command.front_arm_action.value
-                print(front_arm_action, file=sys.stderr)
                 front_arm_actions_publisher.publish(front_arm_action)
 
             if command.back_arm_action is not None:
-                back_arm_action = std_msgs.msg.Float32()
+                back_arm_action = std_msgs.msg.Float64()
                 back_arm_action.data = command.back_arm_action.value
                 back_arm_actions_publisher.publish(back_arm_action)
 
             if command.front_drum_action is not None:
-                front_drum_action = std_msgs.msg.Float32()
+                front_drum_action = std_msgs.msg.Float64()
                 front_drum_action.data = command.front_drum_action.value
-                back_front_actions_publisher.publish(front_drum_action)
+                front_drum_actions_publisher.publish(front_drum_action)
 
             if command.back_drum_action is not None:
-                back_drum_action = std_msgs.msg.Float32()
+                back_drum_action = std_msgs.msg.Float64()
                 back_drum_action.data = command.back_drum_action.value
                 back_drum_actions_publisher.publish(back_drum_action)
 
@@ -106,8 +107,6 @@ def main(passed_args=None):
             in this package.
             """
             try:
-                print(flask.request, file=sys.stderr)
-
                 process_request(flask.request.get_json())
 
                 return {"status": 200}
