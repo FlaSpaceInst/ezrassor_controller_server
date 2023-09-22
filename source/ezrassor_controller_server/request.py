@@ -24,10 +24,6 @@ def verify(request):
                 raise VerificationError(f"missing {LINEAR_X_KEY} for {key}")
             if ANGULAR_Z_KEY not in request[key]:
                 raise VerificationError(f"missing {ANGULAR_Z_KEY} for {key}")
-            if not isinstance(request[key][LINEAR_X_KEY], float):
-                raise VerificationError(f"{LINEAR_X_KEY} must be a float")
-            if not isinstance(request[key][ANGULAR_Z_KEY], float):
-                raise VerificationError(f"{ANGULAR_Z_KEY} must be a float")
         elif key == FRONT_ARM_ACTION_KEY or key == BACK_ARM_ACTION_KEY:
             if request[key] not in server.ArmAction:
                 raise VerificationError(
@@ -57,3 +53,4 @@ class VerificationError(Exception):
     def ___str___(self):
         """Create a human-readable representation of this error."""
         return self.message
+        
